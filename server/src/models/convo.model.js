@@ -18,7 +18,7 @@ const convoSchema = new Schema(
     ],
     characterId: {
       type: Schema.Types.ObjectId,
-      ref: Persona,
+      ref: "Persona",
     },
   },
   {
