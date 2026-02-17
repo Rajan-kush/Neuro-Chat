@@ -54,4 +54,14 @@ const newConversation = asyncHandler(async (req, res) => {
     .json(new ApiResponse(201, newConvo, "convo created successfully"));
 });
 
-export { newConversation };
+const getAllConvo = asyncHandler(async (req, res) => {
+  const allConvo = await Convo.find({ userId: req.user._id })
+    .select("_id convoTitle")
+    .sort({ updatedAt: -1 });
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, allConvo, "convo fetched sucessfully"));
+});
+
+export { newConversation, getAllConvo };

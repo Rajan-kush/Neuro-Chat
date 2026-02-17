@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { newConversation } from "../controllers/convo.controller.js";
+import {
+  newConversation,
+  getAllConvo,
+} from "../controllers/convo.controller.js";
 import {
   chatWithPersona,
   getAllChats,
@@ -11,5 +14,6 @@ const router = Router();
 router.route("/convo").post(jwtVerify, newConversation);
 router.route("/:convoId").post(jwtVerify, chatWithPersona);
 router.route("/getchats/:convoId").get(jwtVerify, getAllChats);
+router.route("/getconvos").get(jwtVerify, getAllConvo);
 
 export default router;
