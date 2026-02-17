@@ -77,4 +77,26 @@ const chatWithPersona = asyncHandler(async (req, res) => {
   );
 });
 
-export { chatWithPersona };
+const getAllChats = asyncHandler(async (req, res) => {
+  const { convoId } = req.params;
+
+  if (!convoId) {
+    throw new ApiError(400, "Conversation Id required");
+  }
+
+  const currentConversation = await Chat.find({ conversationId: convoId })
+    .select("_id role content")
+    .sort({ createdAt: 1 });
+
+  if (!currentConversation) {
+    throw new ApiError(500, "Something went wrong while loading chats");
+  }
+
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, currentConversation, "chat fetched successfully")
+    );
+});
+
+export { chatWithPersona, getAllChats };
