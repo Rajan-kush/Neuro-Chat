@@ -2,9 +2,10 @@ import { openai } from "../utils/geminiApi.js";
 import { asyncHandler } from "../utils/asynchandler.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { Convo } from "../models/convo.model.js";
 
-const newConvo = asyncHandler(async (req, res) => {
-  const { userMessage } = req.body;
+const newConversation = asyncHandler(async (req, res) => {
+  const { userMessage, personaId } = req.body;
 
   if (!userMessage) {
     throw new ApiError(400, "Empty chat message");
@@ -38,5 +39,19 @@ const newConvo = asyncHandler(async (req, res) => {
     throw new ApiError(500, "Something went wrong!");
   }
 
-  return res.status(201).json(new ApiResponse(201, convoTitle));
+  const newConvo = await Convo.create({
+    convoTitle,
+    personaId,
+    userId: req.user._id,
+  });
+
+  if (!newConvo) {
+    throw new ApiError(500, "Something went wrong while generating convo");
+  }
+
+  return res
+    .status(201)
+    .json(new ApiResponse(201, newConvo, "convo created successfully"));
 });
+
+export { newConversation };

@@ -2,6 +2,10 @@ import mongoose, { Schema } from "mongoose";
 
 const chatSchema = new Schema(
   {
+    role: {
+      type: String,
+      required: true,
+    },
     content: {
       type: String,
       required: true,
@@ -9,7 +13,15 @@ const chatSchema = new Schema(
     },
     conversationId: {
       type: Schema.Types.ObjectId,
-      ref: Convo,
+      ref: "Convo",
+    },
+    personaId: {
+      type: Schema.Types.ObjectId,
+      ref: "Persona",
+    },
+    userId: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
     },
   },
   {

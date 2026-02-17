@@ -2,21 +2,21 @@ import mongoose, { Schema } from "mongoose";
 
 const convoSchema = new Schema(
   {
-    chatTitle: {
+    convoTitle: {
       type: String,
       required: true,
     },
-    user: {
+    userId: {
       type: Schema.Types.ObjectId,
       ref: "User",
     },
-    chat: [
+    chats: [
       {
         type: Schema.Types.ObjectId,
         ref: "Chat",
       },
     ],
-    characterId: {
+    personaId: {
       type: Schema.Types.ObjectId,
       ref: "Persona",
     },

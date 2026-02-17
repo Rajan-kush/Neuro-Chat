@@ -5,7 +5,7 @@ dotenv.config();
 
 const openai = new OpenAI({
   apiKey: process.env.GEMINI_API_KEY,
-  baseUrl: "https://generativelanguage.googleapis.com/v1beta/openai/",
+  baseURL: "https://generativelanguage.googleapis.com/v1beta/openai/",
 });
 
 export { openai };
