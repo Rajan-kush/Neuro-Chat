@@ -1,10 +1,13 @@
 import React from "react";
 import { ChevronDoubleRightIcon } from "@heroicons/react/24/outline";
+import ChatBubble from "./ChatBubble";
 
 export const ChatArea = () => {
   return (
     <div className="flex-1 flex flex-col bg-gradient-to-b from-slate-700 to-slate-900">
-      <div className="flex-1 overflow-y-auto"></div>
+      <div className="flex-1 overflow-y-auto">
+        <ChatBubble />
+      </div>
       <div className="w-full h-20 flex justify-center items-center">
         <div className="flex w-[80%] justify-center items-center bg-slate-950 border rounded-4xl">
           <input
