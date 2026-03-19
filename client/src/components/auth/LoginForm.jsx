@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-
+import { loginUser } from "../../api/authApi";
 const LoginForm = () => {
   const {
     register,
@@ -8,13 +8,30 @@ const LoginForm = () => {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
-    console.log(data);
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+  });
+
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const onSubmit = async (formData) => {
+    try {
+      const data = await loginUser(formData);
+      console.log("login succesful : ", data.data.accessToken);
+    } catch (error) {
+      console.error("Login failed:", error.response?.data);
+    }
   };
 
   return (
     <div className="w-100 h-120 bg-transparent border-1 border-indigo-200/30 rounded-xl drop-shadow-[0_0_25px_rgba(97,95,255,0.2)] shadow-lg shadow-slate-400/30">
-      <div className="flex justify-center">
+      <div className="flex justify-center shadow-[10px_0_30px_rgba(0,0,0,0.4)] index-1">
         <img
           src="../public/dark-mode-logo.png"
           className="w-20 h-20 drop-shadow-[0_0_25px_rgba(79,57,246,0.2)]"
@@ -35,6 +52,7 @@ const LoginForm = () => {
               type="text"
               id="username"
               placeholder="Username"
+              onChange={handleChange}
               {...register("username", { required: "User Name required" })}
               className={`focus:outline-none border ${errors.password ? "focus:border-red-500 focus:ring-2 focus:ring-red-500/30 border-red-500" : "focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40 border-slate-100/30"} placeholder-text-slate-50/40 text-slate-200 shadow-xs shadow-slate-100/40 p-2 rounded-lg w-80 transition-all duration-200`}
             />
@@ -45,6 +63,7 @@ const LoginForm = () => {
               type="text"
               id="password"
               placeholder="Password"
+              onChange={handleChange}
               {...register("password", { required: "Password is required" })}
               className={`focus:outline-none border ${errors.password ? "focus:border-red-500 focus:ring-2 focus:ring-red-500/30 border-red-500" : "focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/40 border-slate-100/30"} placeholder-text-slate-50/40 text-slate-200 shadow-xs shadow-slate-100/40 p-2 rounded-lg w-80 transition-all duration-200`}
             />
